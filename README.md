@@ -2,6 +2,9 @@
 
 A command line tool which wraps the [shapely] Python package (which in turn wraps [GEOS]), providing a convenient way to apply various operations to GeoJSON geometries from the command line.
 
+> [!NOTE]
+> This is a tool I wrote for personal use and is not affiliated with the Shapely project or endorsed by its maintainers.
+
 ## Examples
 
 Say you have a GeoJSON file containing a single `FeatureCollection`, like [this one](./tests/great-lakes.geojson) which contains five features representing the five [Great Lakes](https://en.wikipedia.org/wiki/Great_Lakes) (each feature has some properties and a `Polygon` geometry).
