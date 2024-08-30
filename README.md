@@ -6,37 +6,49 @@ A command line tool which wraps the [shapely] Python package (which in turn wrap
 
 Say you have a GeoJSON file containing a single `FeatureCollection`, like [this one](./tests/great-lakes.geojson) which contains five features representing the five [Great Lakes](https://en.wikipedia.org/wiki/Great_Lakes) (each feature has some properties and a `Polygon` geometry).
 
-Here are some things you could use `shapely-cli` to do:
+Here are some things you could use `shapely-cli` to do.
 
+Print the bounding boxes of each geometry:
 ```
-# Print the bounding boxes of each geometry
 $ shapely 'bounds(geom)' < great-lakes.geojson
 [-92.11418, 46.42339, -84.35621, 49.02763]
 [-88.04342, 41.62791, -84.77450, 46.11519]
 [-79.77473, 43.19010, -75.77020, 44.50443]
 [-83.46620, 41.39359, -78.86750, 43.10620]
 [-84.78083, 43.01730, -79.66258, 46.35539]
+```
 
-# Update each feature so that its geometry is guaranteed to be valid
+Update each feature so that its geometry is guaranteed to be valid:
+```
 $ shapely 'geom = make_valid(geom)' < great-lakes.geojson
+```
 
-# Add a bbox property to each feature
+Add a bbox property to each feature:
+```
 $ shapely 'feature["bbox"] = bounds(geom)' < great-lakes.geojson
+```
 
-# Produce a single MultiPolygon containing all of the input geometries
+Produce a single MultiPolygon containing all of the input geometries:
+```
 $ shapely 'union_all(geoms)' < great-lakes.geojson
+```
 
-# Find and print the feature with the largest area
+Find and print the feature with the largest area:
+```
 $ shapely 'max(features, key=lambda f: geodesic_area(f["geometry"]))' < great-lakes.geojson
+```
 
-# Simplify each feature's geometry using Ramer–Douglas–Peucker algorithm
+Simplify each feature's geometry using [Ramer–Douglas–Peucker algorithm](https://en.wikipedia.org/wiki/Ramer–Douglas–Peucker_algorithm):
+```
 $ shapely 'geom = simplify(geom, tolerance=0.05)' < great-lakes.geojson
+```
 
-# Reproject each feature from WGS 84 Lon/Lat to Web Mercator coordinates
+Reproject each feature from WGS 84 Lon/Lat to [Web Mercator coordinates](https://epsg.io/3857):
+```
 $ shapely 'geom = transform(geom, proj(4326, 3857))' < great-lakes.geojson
 ```
 
-All of the above would also work if the input file were a newline-separated sequence of individual GeoJSON features.
+All of the above would also work if the input file were a newline-separated sequence of individual GeoJSON features, like [this](./tests/great-lakes.ndjson).
 
 ## How it works
 
@@ -69,7 +81,9 @@ import shapely
 geojson = json.load(sys.stdin)
 assert geojson.get("type") == "FeatureCollection"
 
-for feature in geojson["features"]
+for feature in geojson["features"]:
+    geom = shapely.geometry.mapping(feature["geometry"])
+    feature["bbox"] = shapely.bounds(geom)
 
 json.dump(geojson, file=sys.stdout)
 ```
