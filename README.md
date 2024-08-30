@@ -50,6 +50,12 @@ $ shapely 'geom = transform(geom, proj(4326, 3857))' < great-lakes.geojson
 
 All of the above would also work if the input file were a newline-separated sequence of individual GeoJSON features, like [this](./tests/great-lakes.ndjson).
 
+## Installation
+
+Clone this repository, cd into it, and then run `pip install .`. Check that it worked by running `shapely --version` in your shell.
+
+TODO: package for Homebrew or PyPI
+
 ## How it works
 
 The tool takes one argument which is a Python expression, statement, or series of statements (you can use semicolons to smush multiple statements into one line). It then reads a GeoJSON object or a newline-delimited sequence of GeoJSON objects (it automatically detects the difference) and applies the Python snippet to each feature or geometry in the input.
