@@ -1,9 +1,15 @@
 [project]
 name = "shapely-cli"
 description = "A command line tool for operating on GeoJSON objects with Shapely"
-version = "0.1.0"
+version = "0.1.1"
+readme = "README.md"
 authors = [
     { name = "Jake Low", email = "hello@jakelow.com" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: ISC License (ISCL)",
+    "Operating System :: OS Independent",
 ]
 dependencies = [
     "click",
@@ -11,6 +17,9 @@ dependencies = [
     "pyproj >= 3.6.0",
     "numpy",
 ]
+
+[project.urls]
+Repository = "https://github.com/jake-low/shapely-cli"
 
 [project.scripts]
 shapely = "shapely_cli.cli:main"
