@@ -1,5 +1,5 @@
 [project]
-name = "shapelycli"
+name = "shapely-cli"
 description = "A command line tool for operating on GeoJSON objects with Shapely"
 version = "0.1.0"
 authors = [
@@ -9,7 +9,8 @@ dependencies = [
     "click",
     "shapely >= 2.0.0",
     "pyproj >= 3.6.0",
+    "numpy",
 ]
 
 [project.scripts]
-shapely = "shapelycli.cli:main"
+shapely = "shapely_cli.cli:main"

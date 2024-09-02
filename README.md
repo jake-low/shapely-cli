@@ -67,7 +67,7 @@ The Python snippet has access to the following variables:
 - `feature` is the GeoJSON feature currently being processed
 - `geom` is the GeoJSON geometry currently being processed (either a bare geometry or the one associated with the current `feature`)
 
-In addition, everything from Shapely is in scope (via `from shapely import *`), as well as a few additional [helper functions](./src/shapelycli/helpers.py).
+In addition, everything from Shapely is in scope (via `from shapely import *`), as well as a few additional [helper functions](./src/shapely_cli/helpers.py).
 
 The Python snippet may end in an expression, in which case the result of that expression will be printed to STDOUT. Or, the Python snippet may be a statement (or series of statements) which modify `feature`, `geom`, or both. In this case each feature or geometry from STDIN is dumped back to STDOUT (with the modifications applied). If you wish to omit a feature from the output, use `feature = None` or `del feature`.
 

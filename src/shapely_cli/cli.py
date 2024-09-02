@@ -73,7 +73,7 @@ class CustomJSONEncoder(json.JSONEncoder):
 import ast
 
 @click.command()
-@click.version_option()
+@click.version_option(package_name="shapely_cli", prog_name="shapely-cli")
 @click.argument("expr", metavar="EXPRESSION")
 def main(expr: str):
     parsed = ast.parse(expr)
@@ -153,6 +153,6 @@ def main(expr: str):
             print(json.dumps(res, cls=CustomJSONEncoder))
             
 if __name__ == "__main__":
-    # only executed when running without installing, i.e. python -m src.shapelycli.cli
+    # only executed when running without installing, i.e. python -m src.shapely_cli.cli
     # (which is used by the unit test scripts)
     main()

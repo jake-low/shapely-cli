@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-SHAPELY="python -m src.shapelycli.cli"
+SHAPELY="python -m src.shapely_cli.cli"
 
 # The environment variable GREAT_LAKES_INPUT_FILE must be set when
 # invoking this test script.
