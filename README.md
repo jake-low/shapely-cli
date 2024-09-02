@@ -55,9 +55,13 @@ All of the above would also work if the input file were a newline-separated sequ
 
 ## Installation
 
-Clone this repository, cd into it, and then run `pip install .`. Check that it worked by running `shapely --version` in your shell.
+You can install this tool from [PyPI](https://pypi.org/) using `pip`.
 
-TODO: package for Homebrew or PyPI
+```
+pip install shapely-cli
+```
+
+Alternately, you can clone this repository, cd into it, and then run `pip install .` to install. Check that it worked by running `shapely --version` in your shell.
 
 ## How it works
 
