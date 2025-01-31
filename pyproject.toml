@@ -1,7 +1,7 @@
 [project]
 name = "shapely-cli"
 description = "A command line tool for operating on GeoJSON objects with Shapely"
-version = "0.1.1"
+version = "0.2.0"
 readme = "README.md"
 authors = [
     { name = "Jake Low", email = "hello@jakelow.com" }
