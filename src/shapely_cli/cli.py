@@ -6,46 +6,39 @@ import traceback
 
 from .eval import evaluate
 
-def read_geoms_from_file(file):
-    first_line = file.readline()
-
-    # try parsing the first line as a complete GeoJSON object
-    try:
-        yield shapely.from_geojson(first_line)
-    except json.decoder.JSONDecodeError:
-        # if that fails, read the rest of the file and attemp to parse
-        # the whole thing as one JSON document
-        remaining = file.read()
-        yield shapely.from_geojson(first_line + remaining)
-        return
-    
-    # if parsing the first line succeeds, continue reading line by line
-    # (assuming the input is an NDJSON file)
-    for line in file:
-        yield shapely.from_geojson(line)
-
-
 def read_features_from_file(file):
+    """
+    Reads a file and yields GeoJSON features from it. Automatically detects
+    whether the file is a single GeoJSON FeatureCollection or an NDJSON file
+    with one feature on each line.
+    """
     first_line = file.readline()
+    is_ndjson = True
 
     # try parsing the first line as a complete GeoJSON object
     try:
-        yield json.loads(first_line)
+        geojson = json.loads(first_line)
     except json.decoder.JSONDecodeError:
         # if that fails, read the rest of the file and attemp to parse
         # the whole thing as one JSON document
+        is_ndjson = False
         remaining = file.read()
         geojson = json.loads(first_line + remaining)
-        if geojson.get('type') == 'FeatureCollection':
-            yield from geojson['features']
-        else:
-            yield geojson
-        return
-    
-    # if parsing the first line succeeds, continue reading line by line
-    # (assuming the input is an NDJSON file)
-    for line in file:
-        yield json.loads(line)
+
+    if geojson.get('type') == 'FeatureCollection':
+        # NOTE: if the first feature is a FeatureCollection, we assume it's the only feature,
+        # even if it was read all from a single line. This means we don't support the case
+        # of an NDJSON file containing one FeatureCollection per line (only the first feature
+        # would be processed).
+        is_ndjson = False
+        yield from geojson['features']
+    else:
+        yield geojson
+
+    if is_ndjson:
+        # read and yield the rest of the features in the NDJSON stream
+        for line in file:
+            yield json.loads(line)
 
 
 class CustomJSONEncoder(json.JSONEncoder):
